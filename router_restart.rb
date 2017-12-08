@@ -28,9 +28,7 @@ end
 
 def update_state(new_state, state)
   return state if new_state == state
-  state = new_state
-  TerminalNotifier.notify(state, :title => 'Router Restart v0.0.1', :subtitle => 'Connection Status')
-
+  TerminalNotifier.notify(new_state, :title => 'Router Restart v0.0.1', :subtitle => 'Connection Status')
   new_state
 end
 
