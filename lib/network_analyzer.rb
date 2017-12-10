@@ -2,6 +2,7 @@ module NetworkAnalyzer
   @@home_ssid
 
   def self.configure(home_ssid)
+    raise "Please give your Wifi Network's SSID as an environment variable." unless home_ssid
     @@home_ssid = home_ssid
   end
 

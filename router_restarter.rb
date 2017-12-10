@@ -1,7 +1,7 @@
 require 'selenium-webdriver'
-require_relative 'state_manager'
-require_relative 'network_analyzer'
-require_relative 'router_automation'
+require_relative './lib/state_manager'
+require_relative './lib/network_analyzer'
+require_relative './lib/router_automation'
 
 NetworkAnalyzer.configure(ENV["SSID"])
 
