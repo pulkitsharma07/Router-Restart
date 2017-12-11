@@ -1,2 +1,2 @@
-*Support Windows*
-*Start Firefox in Headless Mode*
+* Support Windows
+* Start Firefox in Headless Mode
