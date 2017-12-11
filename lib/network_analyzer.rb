@@ -8,6 +8,12 @@ module NetworkAnalyzer
 
     raise "Please give your Wifi Network's SSID as an environment variable." if !@@is_win && home_ssid.nil?
     @@home_ssid = home_ssid
+
+    if @@is_win
+      @@ping_timeout = 8 #seconds
+    else
+      @@ping_timeout = 1
+    end
   end
 
   def self.current_SSID
@@ -28,7 +34,7 @@ module NetworkAnalyzer
 
     tries.times do
       begin
-        Timeout::timeout(1) do
+        Timeout::timeout(@@ping_timeout) do
           Resolv.getaddress('a.root-servers.net')
           can_connect += 1
         end
