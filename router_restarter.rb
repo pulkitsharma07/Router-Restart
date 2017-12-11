@@ -1,4 +1,3 @@
-require 'selenium-webdriver'
 require_relative './lib/state_manager'
 require_relative './lib/network_analyzer'
 require_relative './lib/router_automation'
