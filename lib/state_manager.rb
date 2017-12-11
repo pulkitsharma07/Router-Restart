@@ -7,7 +7,12 @@ module StateManager
     return @@state if new_state == @@state
 
     @@state = new_state
-    TerminalNotifier.notify(@@state, :title => 'Router Restart v0.0.1', :subtitle => 'Connection Status', :sound => 'default')
+
+    if TerminalNotifier.available?
+      TerminalNotifier.notify(@@state, :title => 'Router Restart v0.0.1', :subtitle => 'Connection Status', :sound => 'default')
+    else
+      p "Current State: #{@@state}"
+    end
   end
 
 end

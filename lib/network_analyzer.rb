@@ -4,7 +4,9 @@ require 'resolv'
 module NetworkAnalyzer
 
   def self.configure(home_ssid)
-    raise "Please give your Wifi Network's SSID as an environment variable." unless home_ssid
+    @@is_win = RbConfig::CONFIG['host_os'] =~ /mingw/
+
+    raise "Please give your Wifi Network's SSID as an environment variable." if !@@is_win && home_ssid.nil?
     @@home_ssid = home_ssid
   end
 
@@ -13,7 +15,11 @@ module NetworkAnalyzer
   end
 
   def self.connected_to_home_network?
-    self::current_SSID == @@home_ssid
+    if @@is_win # Stay_Home
+      return true
+    else
+      self::current_SSID == @@home_ssid
+    end
   end
 
   def self.internet_connected?(tries = 4)
