@@ -30,7 +30,7 @@ module NetworkAnalyzer
       begin
         Timeout::timeout(1) do
           if @@is_win
-            self::ping?("8.8.8.8")
+            raise unless self::ping?("8.8.8.8")
           else
             Resolv.getaddress('a.root-servers.net')
           end
