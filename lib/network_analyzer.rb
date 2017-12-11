@@ -23,7 +23,7 @@ module NetworkAnalyzer
   def self.ping?(address)
     packet_loss = `ping #{address} -c1 -s1 -W1000 | cut -d"," -f 3 | tail -1`.strip
 
-    packet_loss =~ /^0.0% packet loss/
+    packet_loss =~ /^0.0% packet loss/ && $?.exitstatus == 0
   end
 
   def self.are_you_fcking_sure_you_can_ping?(address)
