@@ -1,3 +1,4 @@
+# MASSIVE TODO: Create factory for windows/Mac
 require 'timeout'
 require 'resolv'
 
@@ -8,12 +9,6 @@ module NetworkAnalyzer
 
     raise "Please give your Wifi Network's SSID as an environment variable." if !@@is_win && home_ssid.nil?
     @@home_ssid = home_ssid
-
-    if @@is_win
-      @@ping_timeout = 8 #seconds
-    else
-      @@ping_timeout = 1
-    end
   end
 
   def self.current_SSID
@@ -28,17 +23,20 @@ module NetworkAnalyzer
     end
   end
 
-  def self.internet_connected?(tries = 4)
-    return true unless self::connected_to_home_network? # Only restart when connected to home network
+  def self.internet_connected?(tries = 6)
     can_connect = 0
 
     tries.times do
       begin
-        Timeout::timeout(@@ping_timeout) do
-          Resolv.getaddress('a.root-servers.net')
+        Timeout::timeout(1) do
+          if @@is_win
+            self::ping?("8.8.8.8")
+          else
+            Resolv.getaddress('a.root-servers.net')
+          end
           can_connect += 1
         end
-        sleep 1
+        sleep 0.5
       rescue => e
       end
     end
@@ -48,7 +46,11 @@ module NetworkAnalyzer
 
   # Returns true, if no packet loss
   def self.ping?(address)
-    packet_loss = `ping #{address} -c1 -s1 -W1000 | cut -d"," -f 3 | tail -1`.strip
-    packet_loss =~ /^0.0% packet loss/ && $?.exitstatus == 0
+    if @@is_win
+      return `ping #{address} -n 1 -w 500` =~ /\(0% loss/
+    else
+      packet_loss = `ping #{address} -c1 -s1 -W1000 | cut -d"," -f 3 | tail -1`.strip
+      return packet_loss =~ /^0.0% packet loss/ && $?.exitstatus == 0
+    end
   end
 end

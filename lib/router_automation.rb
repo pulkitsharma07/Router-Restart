@@ -8,6 +8,7 @@ module RouterAutomation
   end
 
   def self.do_restart
+    return unless NetworkAnalyzer::connected_to_home_network? # Only restart when connected to home network
     return unless self::can_connect_to_router?
     print "Restarting router at #{Time.now}\n"
     driver = Selenium::WebDriver.for :firefox
