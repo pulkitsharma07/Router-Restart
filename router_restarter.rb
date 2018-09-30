@@ -8,6 +8,8 @@ RouterAutomation.configure("192.168.1.1", "admin", "admin")
 def restart_router
   StateManager::update_state("Offline, Restarting.")
   RouterAutomation.do_restart
+  RouterAutomation.do_restart
+  p "SSD"
 end
 
 loop do
